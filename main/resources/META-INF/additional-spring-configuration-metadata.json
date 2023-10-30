@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "spring.second-datasource.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.password'"
+  },
+  {
+    "name": "spring.second-datasource.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.second-datasource.password'"
+  }
+]}

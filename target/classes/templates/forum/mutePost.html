@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Muted Post Feed</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background-color: #36393f;
+
+            /* Discord's background color */
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+        h1 {
+            background-color: #36454F;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin: 0;
+        }
+
+        .post-list {
+
+            list-style-type: none;
+            padding: 0;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+        }
+
+        .post-list li {
+
+            background-color: #2f3136;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            list-style-type: none;
+            width: 100%;
+
+        }
+
+
+
+        .post-list li h2 {
+
+            color: #fff;
+
+            /* White text */
+
+            font-size: 24px;
+
+            margin: 0;
+
+        }
+
+
+
+        .post-list li p {
+
+            margin: 0;
+
+            font-size: 16px;
+
+            color: #b9bbbe;
+
+            /* Light gray text */
+
+        }
+
+
+
+        .post-list li p strong {
+
+            font-weight: bold;
+
+            color: #fff;
+
+            /* White text */
+
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+        }
+
+        .backnav {
+            margin-right: 30%;
+            /* Adjust the margin as needed */
+            margin-left: 10%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="header">
+        <button href="#" class="backnav" onclick="goBack()"><i class="fa fa-arrow-left"></i></button>
+        <h1>Muted Post Feed</h1>
+    </div>
+
+    <!-- Iterate through the muted posts and display them -->
+
+    <div class="post-list">
+
+        <ul>
+
+            <li th:each="mutedpostLists : ${mutedpostList}">
+
+                <div>
+
+                    <h2>Post : <span th:text="${mutedpostLists.post.id}"></span> </h2>
+                    <p><strong>Content:</strong> <span th:text="${mutedpostLists.post.content}"></span></p>
+
+                    <p><strong>Author:</strong> <span th:text="${mutedpostLists.post.author.name}"></span></p>
+                    <form method="post"
+                        th:action="@{/forum/post/mutefeed/{postId}/delete(postId=${mutedpostLists.post.id})}">
+                        <input type="hidden" th:name="commenterName" th:value="${commenterName}" />
+                        <button type="submit">Unmute</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</body>
+
+
+
+</html>

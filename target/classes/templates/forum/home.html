@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" th:href="@{/css/home.css}" />
+  <script src="https://kit.fontawesome.com/70f63a8d9c.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- <header th:insert="~{forum/fragments.html :: navbar}"></header> -->
+  <header>
+
+    <div th:fragment="navbar" class="navbar">
+      <img class="logo" src="https://th.bing.com/th/id/OIP.C3yoU8f4P3kzpA_ot6dZggHaFW?pid=ImgDet&rs=1" alt="dodge" />
+
+      <nav class="wrapper">
+        <ul class="nav-items">
+          <li class="nav-item">
+            <i class="fa-solid fa-house" style="color: #282829"></i>
+            <a th:href="@{/forum}" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <i class="fa-regular fa-square-plus" style="color: #282829"></i>
+            <a th:href="@{/forum/post/form}" class="nav-link">Create</a>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/forum/notifications}">🔔Notifications</a>
+          </li>
+          <li class="nav-item">
+            <i class="fas fa-user-alt" style="color: #282829"></i>
+            <a th:href="@{/forum/userProfile}">Profile</a>
+          </li>
+          <li class="nav-item">
+			  <a th:href="@{/forum/sortPosts}">Sort</a>
+		  </li>
+
+          <form id="search-form" action="#" th:action="@{/forum/search}">
+            <input type="text" name="search" id="search" placeholder="@username, #tag, post title" />
+            <button type="submit" class="btn-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </form>
+          <li class="nav-item">
+
+            <div class="auth-buttons">
+              <div th:if="${isLoggedIn}">
+                <form action="#" class="nav-link" th:action="@{/logout}" method="post">
+                  <i class="fa-solid fa-right-from-bracket" style="color: #282829"></i>
+                  <button class="btn-auth" type="submit">Logout</button>
+                </form>
+              </div>
+              <div th:unless="${isLoggedIn}">
+                <form action="#" class="nav-link" th:action="@{/login}" method="get">
+                  <i class="fa-solid fa-right-from-bracket" style="color: #282829"></i>
+                  <button class="btn-auth" type="submit">Login</button>
+                </form>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </nav>
+      <div class="user-details">
+        <div class="avatar">
+          <span class="avatar-text" th:text="${symbol}">u</span>
+        </div>
+
+        <div th:if="${isLoggedIn}">
+          <span class="username" th:text="${username}">user</span>
+        </div>
+
+        <div th:unless="${isLoggedIn}">
+          <span class="username">Anonymous</span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="posts">
+      <article class="post" th:each="post: ${posts}">
+        <div class="post-header">
+          <div class="author-details">
+            <div class="avatar">
+              <span class="avatar-text" th:text="${post.author.symbol}">J</span>
+            </div>
+            <div class="author-info">
+              <p class="name" th:text="${post.author.name}">John Doe</p>
+              <!-- <span class="createdAt" th:text="${#calendars.format(post.createdAt, 'dd MMM, yyyy')}">just now</span> -->
+              <span class="createdAt" th:attr="data-datetime=${post.createdAt}"></span>
+            </div>
+          </div>
+        </div>
+        <div class="post-body">
+          <div class="content-wrapper">
+            <h2 class="post-title" th:text="${post.title}">
+              Lorem ipsum dolor sit amet.
+            </h2>
+
+          </div>
+          <div class="image-container">
+            <img src="https://th.bing.com/th/id/OIP.fxcctDbwO5R42LBTXGl_pQAAAA?pid=ImgDet&rs=1" alt="test" />
+          </div>
+          <br>
+
+          <p class="post-content" th:text="${post.content}">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Quisquam voluptatum, voluptate, quibusdam, quia voluptas quod
+            quos voluptatem quas doloribus quidem voluptatibus. Quisquam
+            voluptatum, voluptate, quibusdam, quia voluptas quod quos
+            voluptatem quas doloribus quidem voluptatibus.
+          </p>
+          <div th:if="${post.tags.size > 0}">
+            <div class="tags-container">
+              <span class="tags-title">tags</span>
+              <span class="dot"></span>
+              <div class="tags" th:each="tag: ${post.tags}">
+                <a href="#" th:href="@{/forum/tag/{name}(name=${tag.name})}">
+                  <span class="tag" th:text="${tag.name}">test</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="stats">
+            <div class="likes">
+              <form action="#" th:action="@{/forum/post/{id}/like(id=${post.id})}" method="post" id="like-form">
+                <button type="submit" class="btn-like">
+                  <i class="fa-regular fa-heart"></i>
+                </button>
+              </form>
+              <span class="likes-count" th:text="${post.likesCount}">10</span>
+
+              <!-- Add Favorite Button -->
+              <form method="post" action="#" th:action="@{/forum/post/{id}/fav(id=${post.id})}"
+                onsubmit="showAlertFav()">
+                <input type="hidden" th:name="commenterName" th:value="${commenterName}">
+                <button type="submit" value="Favorite" class="like-button "><i class="fa fa-bookmark"></i></button>
+              </form>
+              <!--Mute button-->
+              <form method="post" action="#" th:action="@{/forum/post/{id}/mute(id=${post.id})}"
+                onsubmit="showAlertMute()">
+                <input type="hidden" th:name="commenterName" th:value="${commenterName}">
+                <button type="submit" value="Mute" class="like-button"><i class="fa fa-bell-slash"></i></button>
+              </form>
+            </div>
+
+            <div class="comments">
+              <form action="#" th:action="@{/forum/post/{id}/comment(id = ${post.id})}" method="post">
+                <i class="fa-regular fa-comment"></i>
+                <span class="comments-count" th:text="${post.commentsCount}">30</span>
+                <input name="content" type="text">
+                <input type="submit" value="Add Comment">
+
+              </form>
+
+            </div>
+            <div class="post-options">
+              <i class="fa-solid fa-ellipsis"></i>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="comments-group">
+          <ul>
+            <li th:each="comment : ${post.comments}">
+              <p th:text="${comment.user.name}"></p>
+              <p th:text="${comment.content}"></p>
+              <ul class="replies">
+                <li th:each="reply: ${comment.replies}">
+                  <p th:text="${reply.user.name}"></p>
+                  <p th:text="${reply.content}"></p>
+                </li>
+              </ul>
+              <br>
+            </li>
+          </ul>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script>
+    // Initialize timeago.js
+    const timeElements = document.querySelectorAll(".createdAt");
+    timeElements.forEach((el) => {
+      const datetime = el.getAttribute("data-datetime");
+      el.innerHTML = moment(datetime).fromNow();
+    });
+  </script>
+</body>
+
+</html>

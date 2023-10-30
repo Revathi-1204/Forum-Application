@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Notifications</title>
+<link rel="stylesheet" th:href="@{/css/home.css}">
+<style>
+    body {
+        padding-top: 4rem;
+    }
+    .notification-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1{
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.notification {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 300px; /* Adjust the width as needed */
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification p {
+    margin: 0; /* Remove default paragraph margin */
+}
+
+button {
+    border: none; /* Removes all borders */
+}
+
+</style>
+</head>
+<body>
+    <header th:insert="forum/home.html :: navbar"></header>
+
+    <h1>Notifications</h1>
+
+    <div class="notification-container">
+        <div th:each="notification : ${notificationList}" class="notification">
+            <form method="post" action="#" th:action="@{'/forum/notification/' + ${notification.post.id}}">
+            <!-- <form > -->
+                <button th:text="${notification.message}" type="submit" th:id="${notification.id}" class="notification-button">
+                    <!-- <p th:text="${notification.message}"></p> -->
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const symbol = document.querySelector(".name").innerText.charAt(0).toUpperCase();
+        document.querySelector(".avatar-text").innerHTML = symbol;
+    </script>
+
+</body>
+</html>

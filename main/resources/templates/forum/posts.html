@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body th:object="${post}">
+    <h1>Post by <span th:text="*{author.name}">John Doe</span></h1>
+    <h2 th:text="*{title}">post title.</h2>
+    <p th:text="*{content}">This is a post.</p>
+    <p>Likes: <span th:text="${likeCount}">0</span></p>
+    <ul class="comments" >
+      <li th:each="comment : ${commentList}">
+        <p th:text="${comment.content}">This is a comment.</p>
+        <p>By: <span th:text="${comment.user.name}">John Doe</span></p>
+      </li>
+    </ul>
+    <form
+      method="post"
+      action="#"
+      th:action="@{/forum/post/{id}/like(id = ${post.id})}"
+    >
+      <label for="userdropdown">Select your username</label>
+      <select id="userdropdown" th:name="likerId">
+        <option
+          th:each="userOption : ${userList}"
+          th:value="${userOption.id}"
+          th:text="${userOption.name}"
+        ></option>
+      </select>
+      <input type="submit" value="Like!" />
+    </form>
+    <form
+      action="#"
+      th:action="@{/forum/post/{id}/comment(id = ${post.id})}"
+      th:Object="${commentForm}"
+      method="post"
+    >
+      <label for="comment">comment</label>
+      <textarea name="content" id="content" cols="30" rows="10" th:field="*{content}"></textarea>
+      <label for="userdropdown">Select your username</label>
+      <select id="userdropdown" th:field="*{userId}">
+        <option
+          th:each="userOption : ${userList}"
+          th:value="${userOption.id}"
+          th:text="${userOption.name}"
+        ></option>
+      </select>
+      <input type="submit" value="comment!">
+    </form>
+  </body>
+</html>

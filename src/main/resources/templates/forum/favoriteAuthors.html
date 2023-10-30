@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Favorite Authors</title>
+<style>
+    body {
+        font-family: "Arial", sans-serif;
+        background-color: #f0f0f0; /* Light gray background */
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    h2 {
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        width: 50%;
+        margin: 10px auto;
+        border-radius: 5px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+
+    li {
+        background-color: #fff; /* White background */
+        border: 1px solid #ccc; /* Light gray border */
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: #333;
+    }
+
+    a.favorite-link {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        margin: 10px;
+        display: inline-block;
+    }
+
+    a.favorite-link:hover {
+        background-color: #555; /* Darker background on hover */
+    }
+</style>
+</head>
+<body>
+<h2>Favorite Authors</h2>
+<ul>
+    <th:block th:each="author : ${favoriteAuthors}">
+        <li th:text="${author.name}"></li>
+    </th:block>
+</ul>
+
+<!-- Add a link to return to the user profile -->
+<a class="favorite-link" href="/forum/userProfile">Back to User Profile</a>
+</body>
+</html>

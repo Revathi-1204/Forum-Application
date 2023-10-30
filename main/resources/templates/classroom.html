@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Students</title>
+  </head>
+  <body>
+    <div>
+      <form action="#" th:action="@{/classroom/add}" method="post">
+        <input type="text" name="name" id="name" placeholder="enter name" />
+        <input type="text" name="score" id="score" placeholder="enter score" />
+        <!-- <div class="alert alert-warning" th:if="${#fields.hasErrors('score')}" th:errors="*{score}"></div> -->
+        <input type="submit" value="add" name="action" />
+      </form>
+      <h1>Students</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>rank</th>
+            <th>Name</th>
+            <th>score</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="student : ${students}">
+            <td th:text="${student.id}">Id</td>
+            <td th:text="${student.rank}">rank</td>
+            <td th:text="${student.name}">Name</td>
+            <td th:text="${student.score}">score</td>
+            <td class="actions">
+              <form
+                action="#"
+                th:action="@{'/classroom/update/' + ${student.id}}"
+                method="post"
+              >
+                <input type="text" name="name" th:value="${student.name}" />
+                <input type="text" name="score" th:value="${student.score}" />
+                <input type="submit" name="action" value="update" />
+              </form>
+              <form
+                action="#"
+                th:action="@{'/classroom/delete/' + ${student.id}}"
+                method="post"
+              >
+                <input type="submit" name="action" value="delete" />
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

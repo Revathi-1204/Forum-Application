@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reuseable fragments</title>
+</head>
+<body>
+    <div th:fragment="navbar" class="navbar">
+        <span class="logo">logo</span>
+        <nav class="wrapper">
+            <ul>
+                <li>
+                    <a th:href="@{/forum/post/all}">All Posts</a>
+                </li>
+                <li>
+                    <a th:href="@{/forum/profile}">Profile</a>
+                </li>
+                <li>
+                    <a th:href="@{/forum/post/form}">New Post</a>
+                </li>
+                <li>
+                    <a th:href="@{/forum/notifications}">🔔</a>
+                </li>
+            
+            </ul>
+        </nav>
+        <form id="search-form" action="#" th:action="@{/forum/search}">
+            <input type="text" name="search" id="search" placeholder="Search Posts" />
+            <button type="submit" class="btn-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+        <div class="user-details-wrapper">
+            <div class="user-avatar">
+                <span class="avatar-text">u</span>
+            </div>
+            <div class="user-details">
+                <div th:if="${isLoggedIn}">
+                    <span class="name" th:text="${username}">user</span>
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <button class="btn-auth" type="submit">logout</button>
+                    </form>
+                </div>
+    
+                <div th:unless="${isLoggedIn}">
+                    <span class="name">anonymous</span>
+                    <form action="#" th:action="@{/login}" method="get">
+                        <button class="btn-auth" type="submit">login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

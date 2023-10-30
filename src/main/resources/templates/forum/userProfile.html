@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+	<title>User Profile</title>
+	<style>
+		.user-profile-card ul li {
+			text-align: center;
+		}
+
+
+
+		.authors-table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+
+
+		.authors-table th,
+		.authors-table td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+		}
+
+
+
+		.authors-table th {
+			background-color: #f2f2f2;
+		}
+
+
+
+		/* CSS for author names */
+		.author-name {
+			font-weight: bold;
+			color: #333;
+		}
+
+
+
+		.thymeleaf-button {
+			background-color: #333;
+			color: #fff;
+			padding: 6px 12px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			margin-right: 5px;
+		}
+
+
+
+		.thymeleaf-button:hover {
+			background-color: #555;
+		}
+
+
+
+		body {
+			font-family: Arial, sans-serif;
+			background: linear-gradient(to bottom, rgb(158, 184, 255), #e0e0e0);
+			/* Gradient background */
+			margin: 0;
+			color: rgb(158, 184, 255);
+			padding: 0;
+			text-align: center;
+		}
+
+
+
+		h1 {
+			background-color: rgb(14, 31, 171);
+			color: #fff;
+			padding: 10px;
+			width: 40%;
+			margin: 0 auto;
+			border-radius: 10px;
+		}
+
+
+
+		h2 {
+			background-color: rgb(26, 95, 180);
+			color: #fff;
+			padding: 10px;
+			width: 20%;
+			margin: 0 auto;
+			border-radius: 10px;
+		}
+
+
+
+		.user-profile-card {
+			max-width: 400px;
+			margin: 20px auto;
+			padding: 20px;
+			border: 1px solid #e1e1e1;
+			border-radius: 10px;
+			background-color: rgb(111, 100, 221);
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		}
+
+
+
+		/* Styles for the user's avatar */
+		.user-avatar {
+			width: 150px;
+			height: 150px;
+			border-radius: 50%;
+			overflow: hidden;
+			margin: 0 auto 10px;
+			background-color: #ddd;
+		}
+
+
+
+		.user-avatar img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+
+
+		.edit-profile-button {
+			width: 30%;
+			margin: 10px auto;
+			background-color: rgb(192, 28, 40);
+			text-align: center;
+			color: #fff;
+			padding: 10px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			display: block;
+			text-decoration: none;
+		}
+
+
+
+		.edit-profile-button:hover {
+			background-color: #555;
+		}
+
+
+
+		ul {
+			list-style: none;
+			padding: 0;
+		}
+
+
+
+		li {
+			padding: 10px;
+			border: 1px solid #e1e1e1;
+			border-radius: 5px;
+			margin-bottom: 10px;
+			background-color: #fff;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+
+
+		span {
+			font-size: 16px;
+			color: #333;
+			margin-right: 10px;
+		}
+
+
+
+		.post-card {
+			background-color: #fff;
+			border: 1px solid #e1e1e1;
+			border-radius: 10px;
+			margin-bottom: 20px;
+			padding: 20px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+
+
+		.post-author {
+			font-weight: bold;
+			color: #333;
+		}
+
+
+
+		.post-content {
+			margin-top: 10px;
+			color: #555;
+		}
+
+
+
+		.post-actions {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 20px;
+		}
+
+
+
+		.post-action-button {
+			background-color: #333;
+			color: #fff;
+			padding: 8px 16px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+
+
+		.post-action-button:hover {
+			background-color: #555;
+		}
+
+
+
+		.all-posts {
+			max-width: 600px;
+			margin: 20px auto;
+			display: none;
+			/* Hide posts by default */
+		}
+
+
+
+		.action-buttons {
+			display: flex;
+			justify-content: space-between;
+			margin: 10px;
+		}
+
+
+
+		.action-button {
+			background-color: rgb(97, 53, 131);
+			color: #fff;
+			padding: 10px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+
+
+		.action-button:hover {
+			background-color: rgb(192, 191, 188);
+		}
+
+		.like-button {
+			background-color: rgb(0, 0, 0);
+			color: #fff;
+			padding: 10px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+
+
+
+
+		.like-button:hover {
+			background-color: rgb(192, 191, 188);
+		}
+
+
+
+		/* CSS for the authors table */
+		.authors-table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+
+
+		.authors-table th,
+		.authors-table td {
+			border: 1px solid #ddd;
+			padding: 4px;
+			text-align: left;
+			vertical-align: middle;
+		}
+
+
+
+		.authors-table th {
+			background-color: #f2f2f2;
+		}
+
+
+
+		.author-name {
+			font-weight: bold;
+			color: #333;
+		}
+
+
+
+		.thymeleaf-button {
+			background-color: #333;
+			color: #fff;
+			padding: 6px 12px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+
+
+		.thymeleaf-button:hover {
+			background-color: #555;
+		}
+
+		.user-profile-pic {
+			width: 10px;
+			/* Adjust the width as needed */
+			height: 10px;
+			/* Adjust the height as needed */
+		}
+
+
+
+		.authors-table tbody tr {
+			margin-bottom: 0;
+		}
+	</style>
+	<script>
+		const editProfileButton = document.getElementById("edit-profile-button");
+		const bioEditForm = document.getElementById("bio-edit-form");
+		const bioInput = document.getElementById("bio-input");
+		const bioDisplay = document.getElementById("bio-display");
+
+
+
+		editProfileButton.addEventListener("click", function () {
+			bioEditForm.style.display = "block";
+			bioDisplay.style.display = "none";
+			editProfileButton.style.display = "none";
+		});
+
+
+
+		bioEditForm.addEventListener("submit", function (event) {
+			event.preventDefault();
+			const newBio = bioInput.value;
+			bioDisplay.textContent = newBio;
+			bioEditForm.style.display = "none";
+			bioDisplay.style.display = "block";
+			editProfileButton.style.display = "block";
+		});
+
+
+
+		document.addEventListener("DOMContentLoaded", function () {
+			const togglePostsButton = document.getElementById("toggle-posts-button");
+			const allPosts = document.querySelector(".all-posts");
+
+
+
+			togglePostsButton.addEventListener("click", function () {
+				if (allPosts.style.display === "none") {
+					allPosts.style.display = "block"; // Show posts
+					togglePostsButton.textContent = "Hide Posts";
+				} else {
+					allPosts.style.display = "none"; // Hide posts
+					togglePostsButton.textContent = "Show Posts";
+				}
+			});
+		});
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const togglePostsButton = document.getElementById("toggle-posts-button");
+			const toggleAuthorsButton = document.getElementById("toggle-authors-button");
+			const allPosts = document.querySelector(".all-posts");
+			const allAuthors = document.querySelector(".all-authors");
+
+
+
+			togglePostsButton.addEventListener("click", function () {
+				if (allPosts.style.display === "none") {
+					allPosts.style.display = "block"; // Show posts
+					togglePostsButton.textContent = "Hide Posts";
+				} else {
+					allPosts.style.display = "none"; // Hide posts
+					togglePostsButton.textContent = "Show Posts";
+				}
+			});
+
+
+
+			toggleAuthorsButton.addEventListener("click", function () {
+				if (allAuthors.style.display === "none") {
+					allAuthors.style.display = "block"; // Show authors
+					toggleAuthorsButton.textContent = "Hide Authors";
+				} else {
+					allAuthors.style.display = "none"; // Hide authors
+					toggleAuthorsButton.textContent = "Show Authors";
+				}
+			});
+		});
+	</script>
+
+
+
+</head>
+
+
+
+<body>
+	<h1>User Profile</h1>
+	<br />
+	<div class="user-profile-card">
+		<div th:if="${user != null}">
+			<img th:if="${user.imagePath != null and user.imagePath != ''}" th:src="@{'/images/' + ${user.imagePath}}"
+				alt="User Image" />
+			<img th:unless="${user.imagePath != null and user.imagePath != ''}" src="/images/userImage.jpg"
+				style="width: 10px ;height:10px" alt="Default User Image" />
+		</div>
+
+
+
+
+
+		<form th:action="@{/forum/user/upload-profile-picture}" method="post" enctype="multipart/form-data">
+			<input type="file" name="file" accept=".jpg,.png" required>
+			<input type="submit" value="Upload">
+		</form>
+
+
+
+
+
+		<!--         Thymeleaf expression to display the user's profile picture -->
+		<!--        <img th:src="@{/static/images/userImage.jpg}" alt="Profile Picture">-->
+		<!--    </div>-->
+
+
+
+		<form id="bio-edit-form" method="get" action="#" th:action="@{/forum/goEdit}">
+			<input type="submit" class="edit-profile-button" value="Edit Profile" id="edit-profile-button">
+		</form>
+		<ul>
+			<li>
+				<span> <b>ID:</b></span>
+				<span th:text="${id}"></span>
+			</li>
+			<li>
+				<span><b>Username:@</b></span>
+				<span th:text="${username}"></span>
+			</li>
+			<li>
+				<span><b>Email:</b></span>
+				<span th:text="${email}"></span>
+			</li>
+			<li>
+				<span><b>Date Of Birth:</b></span>
+				<span th:text="${dateOfBirth}"></span>
+			</li>
+			<li>
+				<span><b>Bio:</b></span>
+				<span th:text="${bio}"></span>
+			</li>
+		</ul>
+		<ul>
+			<!--	        <li th:each="author : ${authors}">-->
+			<!--	            <span th:text="${author.name}"></span>-->
+
+
+
+			<!--	 Button to mark as favorite -->
+			<!--	            <form th:action="@{/forum/user/markFavorite}" method="post">-->
+			<!--	                <input type="hidden" name="authorId" th:value="${author.id}" >-->
+			<!--	               	<input type="submit" value="make favorite!">-->
+			<!--	            </form>-->
+
+
+
+			<!--	             Button to mark as muted -->
+			<!--	            <form th:action="@{/forum/user/markMuted}" method="post">-->
+			<!--	                <input type="hidden" name="authorId" th:value="${author.id}" >-->
+			<!--	                <input type="submit" value="mute!">-->
+			<!--	            </form>-->
+			<!--	        </li>-->
+		</ul>
+	</div>
+	<h2>User Services</h2>
+	<div class="action-buttons">
+		<button id="toggle-posts-button" class="action-button">Show Posts</button>
+		<!--		<button id="toggle-posts-button" class="action-button">Favorite Posts</button>-->
+		<a href="/forum/post/favfeed" class="action-button">Favorite Posts</a>
+		<button id="toggle-authors-button" class="action-button">All Authors</button>
+		<a href="/forum/user/markFavorite" class="action-button">Favorite Authors</a>
+
+		<a href="/forum/user/markMuted" class="action-button">Muted Authors</a>
+	</div>
+
+
+
+	<div class="all-authors" style="display: none;">
+		<h2>All Authors:</h2>
+		<table class="authors-table">
+			<thead>
+				<tr>
+					<th>Author Name</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Loop through and display authors -->
+				<tr th:each="author : ${authors}">
+					<td>
+						<span class="author-name" th:text="${author.name}"></span>
+					</td>
+					<td>
+						<form th:action="@{/forum/user/markFavorite}" method="post">
+							<input type="hidden" name="authorId" th:value="${author.id}">
+							<button type="submit" class="thymeleaf-button">Favorite</button>
+						</form>
+						<form th:action="@{/forum/user/markMuted}" method="post">
+							<input type="hidden" name="authorId" th:value="${author.id}">
+							<button type="submit" class="thymeleaf-button">Mute</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+
+
+
+	<div class="all-posts">
+		<ul>
+			<li th:each="post : ${posts}" class="post-card">
+				<div class="post-author" th:text="${post.author.name}"></div>
+
+
+
+				<div class="post-content" th:text="${post.content}"></div>
+
+
+
+				<!-- <div class="post-timestamp" th:text="${post.timestamp}"></div> -->
+
+
+
+				<div class="post-actions">
+
+
+
+					<button class="post-action-button">Like</button>
+					<button class="post-action-button">Comment</button>
+					<form method="post" action="#" th:action="@{/forum/post/{id}/fav(id=${post.id})}"
+						onsubmit="showAlertFav()">
+						<input type="hidden" th:name="commenterName" th:value="${commenterName}">
+						<button type="submit" value="Favorite" class="like-button ">Favorite</button>
+					</form>
+				</div>
+			</li>
+
+
+
+		</ul>
+	</div>
+</body>
+
+
+
+</html>

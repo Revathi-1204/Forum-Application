@@ -1,0 +1,138 @@
+/* Reset some default styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  font-family: sans-serif;
+  background-color: rgb(242, 242, 242);
+}
+
+/* Anchor styles (links) */
+a {
+  text-decoration: none;
+}
+
+/* Main container styles */
+main {
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Form container styles */
+#post-form {
+  width: 370px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-radius: 5px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: hsla(0, 0%, 100%, 0.75);
+  z-index: 2;
+}
+
+/* Input group styles */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Title styles */
+h1.title {
+  font-size: 3rem; /* Larger font size */
+  margin-bottom: 5rem; /* Increased margin */
+  font-family: "Lobster", cursive;
+  text-align: center;
+  color: #007bff; /* Blue title color */
+}
+
+/* Label styles */
+label {
+  display: block;
+  font-weight: bold;
+}
+
+/* Input and textarea styles */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(54, 54, 54, 0.5);
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: sans-serif;
+  background-color: transparent;
+  color: #333; /* Changed text color */
+}
+
+/* Input and textarea focus styles */
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* "Back" button styles */
+.btn-back {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 999;
+  color: #070707;
+}
+
+/* Delete button styles */
+.btn-delete {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  position: relative;
+  width: 20px;
+  aspect-ratio: 1;
+  border-radius: 100%;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+/* X icon styles */
+.x-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Tag input styles */
+input[type="text"][name="tags"] {
+  font-style: italic;
+  color: #777;
+}
+
+/* Submit button styles */
+.btn-submit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  flex: 1;
+  border-radius: 25px;
+  font-weight: 700;
+  padding: 10px 20px;
+  font-size: medium;
+  cursor: pointer;
+}

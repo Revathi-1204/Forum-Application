@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>post form</title>
+  </head>
+  <body>
+    <h1>Create a new post!</h1>
+    <form
+      method="post"
+      action="#"
+      th:action="@{/forum/post/add}"
+      th:object="${postForm}"
+    >
+      <label for="title">title</label>
+      <input type="text" name="title" th:field="*{title}" />
+      <label for="content">Content</label>
+      <textarea id="content" name="content" th:field="*{content}"></textarea>
+      <label for="userdropdown">Select your username</label>
+      <select id="userdropdown" th:field="*{authorId}">
+        <option
+          th:each="userOption : ${userList}"
+          th:value="${userOption.id}"
+          th:text="${userOption.name}"
+        ></option>
+      </select>
+      <input type="submit" value="Create!" />
+    </form>
+  </body>
+</html>
